@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from cotas import views
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('update_agent', views.update_agent, name='update_agent'),
+    path('', views.index, name='index'),
 ]

@@ -13,12 +13,12 @@ class Cota(models.Model):
     id = models.BigAutoField(primary_key=True)
     codigo = models.CharField(max_length=140)
     administradora = models.CharField(max_length=140)
-    valor = models.FloatField()
-    entrada = models.FloatField()
-    parcelas = models.IntegerField()
-    segmento = models.ImageField("Product Image", upload_to='loja/static/loja/images', null=True)
-    vencimento = models.TextField()
-    img = models.ForeignKey(Administradora, on_delete=models.CASCADE)
+    valor = models.CharField(max_length=140)
+    entrada = models.CharField(max_length=140)
+    parcelas = models.CharField(max_length=140)
+    segmento = models.CharField(max_length=140)
+    vencimento = models.CharField(max_length=140)
+    img = models.CharField(max_length=255)
 
     def __str__(self):
         return str(self.codigo)
