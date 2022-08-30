@@ -2,10 +2,10 @@ from django.db import models
 
 # Create your models here.
 
-class Administradora:
+class Administradora(models.Model):
     id = models.BigAutoField(primary_key=True)
     nome = models.CharField(max_length=140)
-    img = odels.ImageField("Logo Administradora", upload_to='cotas/static/cotas/images', null=True)
+    img = models.ImageField("Logo Administradora", upload_to='cotas/static/cotas/images', null=True)
     def __str__(self):
         return str(self.img.url)
 
