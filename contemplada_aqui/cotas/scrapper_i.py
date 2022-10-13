@@ -11,7 +11,7 @@ class Cotas:
     credito = 0
     entrada = 0
     parcelas = ""
-    segmento = "Automóveis"
+    segmento = "Imóveis"
     vencimento = ""
     codigo = 0
 
@@ -23,7 +23,7 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:55.0) Gecko/20100101 Firefox/55.0',
 }
 
-html_content = requests.get("https://contempladoschapeco.com.br/consorcio/veiculo/", headers=headers).text
+html_content = requests.get("https://contempladoschapeco.com.br/consorcio/imovel/", headers=headers).text
 soup = BeautifulSoup(html_content,features="html.parser")
 lista_maior = []
 
@@ -67,7 +67,7 @@ for a in chunks:
     else:
         obj.url = ""
 
-    obj.codigo  = 12452 + chunks.index(a)
+    obj.codigo  = 15000 + chunks.index(a)
 
     obj_list.append(obj)
 
