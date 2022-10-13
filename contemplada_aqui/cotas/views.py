@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from django.http import HttpResponse
 from django.template import loader
 from django.db.models import Avg, Max, Min, Sum
+from django.views.generic.list import ListView
 # Create your views here.
 
 
@@ -147,7 +148,22 @@ def update_agent(request):
 def index(request):
     cotas_list = Cota.objects.all()
     template = loader.get_template('index.html')
+    total_cotas = cotas_list.count()
     context = {
         'cotas_list': cotas_list,
+        'total_cotas': total_cotas
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def cotas_list(request):
+    cotas_list = Cota.objects.all()
+    template = loader.get_template('cotas_list.html')
+    total_cotas = cotas_list.count()
+
+
+    context = {
+        'cotas_list': cotas_list,
+        'total_cotas': total_cotas
     }
     return HttpResponse(template.render(context, request))

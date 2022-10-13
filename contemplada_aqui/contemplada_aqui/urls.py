@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('update_agent', views.update_agent, name='update_agent'),
     path('', views.index, name='index'),
+    path('cotas_list', views.cotas_list, name='cotas_list'),
 ]
 
 urlpatterns +=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
