@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'contemplada_aqui.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd32f1qifecilq9',
+        'USER': 'kzqqugiknxyzii',
+        'PASSWORD': 'a24faa72f1518d558f7b952177fe8fd28a6b4a45df935f8f8487441711d33d67',
+        'HOST': 'ec2-3-220-207-90.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
