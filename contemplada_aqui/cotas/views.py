@@ -4,10 +4,14 @@ import locale
 import re
 import requests
 from bs4 import BeautifulSoup
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.db.models import Avg, Max, Min, Sum
 from django.views.generic.list import ListView
+import json
+from .serializers import CotaSerializer
+from rest_framework import generics
+
 # Create your views here.
 
 
@@ -149,21 +153,44 @@ def index(request):
     cotas_list = Cota.objects.all()
     template = loader.get_template('index.html')
     total_cotas = cotas_list.count()
+
+    
     context = {
         'cotas_list': cotas_list,
-        'total_cotas': total_cotas
+        'total_cotas': total_cotas,
+        
     }
     return HttpResponse(template.render(context, request))
 
 
 def cotas_list(request):
     cotas_list = Cota.objects.all()
-    template = loader.get_template('cotas_list.html')
+    print(type(cotas_list.values()))
     total_cotas = cotas_list.count()
-
-
+    template = loader.get_template('cotas_list.html')
     context = {
         'cotas_list': cotas_list,
         'total_cotas': total_cotas
     }
     return HttpResponse(template.render(context, request))
+
+class CotaAPIView(generics.ListCreateAPIView):
+    queryset = Cota.objects.all()
+    serializer_class = CotaSerializer
+
+
+    #return JsonResponse(cotas_list, safe=False)
+
+    """    cotas_list = {
+    "rows": [
+    {
+      "id": 0,
+      "codigo":123,
+      "administradora": "teste",
+      "valor": 100,
+      "parcelas": "10x R$ 10,00",
+      "segmento":"Imóveis",
+      "vencimento":"Dia 31"
+    },
+    
+    ]}"""
