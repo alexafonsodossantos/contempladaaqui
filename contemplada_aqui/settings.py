@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-l418d9*sl#1pborv_d#olrr%c853-gy$fxb1&5nx#06z%7qpwi
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'contempladaaqui.herokuapp.com' ,'http://contempladaaquiv2-env.eba-ehmupfeh.sa-east-1.elasticbeanstalk.com/']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'contempladaaqui.herokuapp.com' ,'Contempladaaqui-env.eba-vhtcm9sr.sa-east-1.elasticbeanstalk.com']
 
 
 # Application definition
