@@ -24,7 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('update_agent', views.update_agent, name='update_agent'),
     path('', views.index, name='index'),
-    path('cotas_list', views.cotas_list, name='cotas_list'),
     path('cotas_json', CotaAPIView.as_view(), name='cotas_json'),
 ]
 

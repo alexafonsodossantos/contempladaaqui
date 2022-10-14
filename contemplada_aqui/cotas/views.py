@@ -16,7 +16,9 @@ from rest_framework import generics
 
 
 def update_agent(request):
-    latest_cod = 14000
+    latest_cod = int(Cota.objects.all().aggregate(Max('codigo'))['codigo__max'])
+
+    Cota.objects.all().delete()
     class Cotas:
         url = ""
         carta = ""
