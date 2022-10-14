@@ -96,7 +96,7 @@ else:
             'NAME': 'contempladaaqui_v2',
             'USER': 'contempladaaqui',
             'PASSWORD': 'Ab742853964',
-            'HOST': 'localhost',
+            'HOST': 'awseb-e-pptjegmijm-stack-awsebrdsdatabase-gne9skqh8423.cvkvzrm4kqem.sa-east-1.rds.amazonaws.com',
             'PORT': '5432',
         }
     }
