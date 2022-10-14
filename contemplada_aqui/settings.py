@@ -75,31 +75,13 @@ WSGI_APPLICATION = 'contemplada_aqui.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-
-if 'RDS_DB_NAME' in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ['RDS_DB_NAME'],
-            'USER': os.environ['RDS_USERNAME'],
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT'],
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
 
-else:
-    else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'contempladaaqui_v2',
-            'USER': 'contempladaaqui',
-            'PASSWORD': 'Ab742853964',
-            'HOST': 'awseb-e-pptjegmijm-stack-awsebrdsdatabase-gne9skqh8423.cvkvzrm4kqem.sa-east-1.rds.amazonaws.com',
-            'PORT': '5432',
-        }
-    }
 
 
 # Password validation
