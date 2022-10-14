@@ -1,1 +1,1 @@
-web: gunicorn contemplada_aqui.wsgi --log-file -
+web: gunicorn contempladaaqui.wsgi --log-file -
