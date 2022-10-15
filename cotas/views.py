@@ -11,7 +11,7 @@ from django.views.generic.list import ListView
 import json
 from .serializers import CotaSerializer
 from rest_framework import generics
-
+from django.shortcuts import get_object_or_404, redirect
 # Create your views here.
 
 
@@ -169,17 +169,33 @@ def index(request):
     
 
 
-    def cotas_list(request):
-        cotas_list = Cota.objects.all()
-        print(type(cotas_list.values()))
-        total_cotas = cotas_list.count()
-        template = loader.get_template('cotas_list.html')
-        context = {
+def dashboard(request):
+    cotas_list = Cota.objects.all()
+    template = loader.get_template('dashboard.html')
+    total_cotas = cotas_list.count()
+
+        
+    context = {
             'cotas_list': cotas_list,
-            'total_cotas': total_cotas
-        }
-        return HttpResponse(template.render(context, request))
-    
+            'total_cotas': total_cotas,
+            
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def dashboard_detail(request, cota_cod):
+    cota = get_object_or_404(Cota, codigo=cota_cod)
+    return render(request, 'cota.html', {'cota': cota})
+
+def dashboard_update_cota(request):
+    queryset = request.POST
+    print(queryset)
+    return redirect('/dashboard')
+
+def dashboard_remove_cota(request):
+    queryset = request.POST
+    print(queryset)
+    return redirect('/dashboard')
 
 class CotaAPIView(generics.ListCreateAPIView):
     queryset = Cota.objects.all()

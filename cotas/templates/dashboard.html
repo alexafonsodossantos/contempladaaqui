@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Dashboard | Contemplada Aqui</title>
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <h3>Cotas cadastradas: {{ total_cotas }} </h3> <br>
+
+    <button type="button" class="btn btn-success">Criar nova cota</button>
+
+
+<table class="table">
+    <th>Codigo</th>
+    <th>Administradora</th>
+    <th>Crédito</th>
+    <th>Entrada</th>
+    <th>Parcelas</th>
+    <th>Segmento</th>
+    <th>Vencimento</th>
+    {% for cota in cotas_list %}
+    <tr>
+        <td><a href="dashboard/{{ cota.codigo }}">{{cota.codigo}}</a></td>
+        <td>{{cota.administradora}}</td>
+        <td>{{cota.valor}}</td>
+        <td>{{cota.entrada}}</td>
+        <td>{{cota.parcelas}}</td>
+        <td>{{cota.segmento}}</td>
+        <td>{{cota.vencimento}}</td>
+    </tr>
+
+{% endfor %}
+
+</table>
+</body>
+</html>
