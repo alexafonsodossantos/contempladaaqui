@@ -170,43 +170,56 @@ def index(request):
 
 
 def dashboard(request):
-    cotas_list = Cota.objects.all()
-    template = loader.get_template('dashboard.html')
-    total_cotas = cotas_list.count()
+    if request.user.is_authenticated:
 
-        
-    context = {
-            'cotas_list': cotas_list,
-            'total_cotas': total_cotas,
+        cotas_list = Cota.objects.all()
+        template = loader.get_template('dashboard.html')
+        total_cotas = cotas_list.count()
+
             
-    }
-    return HttpResponse(template.render(context, request))
+        context = {
+                'cotas_list': cotas_list,
+                'total_cotas': total_cotas,
+                
+        }
+        return HttpResponse(template.render(context, request))
+    else:
+        return HttpResponse('Não autorizado.')
 
 
 def dashboard_detail(request, cota_cod):
-    cota = get_object_or_404(Cota, codigo=cota_cod)
-    return render(request, 'cota.html', {'cota': cota})
+    if request.user.is_authenticated:
+        cota = get_object_or_404(Cota, codigo=cota_cod)
+        return render(request, 'cota.html', {'cota': cota})
+    else:
+        return HttpResponse("Não autorizado.")
 
 def dashboard_update_cota(request, codigo):
-    queryset = request.POST
-    print(queryset)
+    if request.user.is_authenticated:
+        queryset = request.POST
+        print(queryset)
 
-    cota_update = Cota.objects.get(codigo = codigo)
+        cota_update = Cota.objects.get(codigo = codigo)
 
-    cota_update.administradora = request.POST.get('administradora')
-    cota_update.valor = request.POST.get('valor')
-    cota_update.entrada = request.POST.get('entrada')
-    cota_update.parcelas = request.POST.get('parcelas')
-    cota_update.segmento = request.POST.get('segmento')
-    cota_update.vencimento = request.POST.get('vencimento')
+        cota_update.administradora = request.POST.get('administradora')
+        cota_update.valor = request.POST.get('valor')
+        cota_update.entrada = request.POST.get('entrada')
+        cota_update.parcelas = request.POST.get('parcelas')
+        cota_update.segmento = request.POST.get('segmento')
+        cota_update.vencimento = request.POST.get('vencimento')
 
-    cota_update.save()
-    
-    return redirect('/dashboard')
+        cota_update.save()
+        
+        return redirect('/dashboard')
+    else:
+        return HttpResponse("Não autorizado.")
 
 def dashboard_remove_cota(request, codigo):
-    Cota.objects.get(codigo = codigo).delete()
-    return redirect('/dashboard')
+    if request.user.is_authenticated:
+        Cota.objects.get(codigo = codigo).delete()
+        return redirect('/dashboard')
+    else:
+        return HttpResponse("Não autorizado.")
 
 class CotaAPIView(generics.ListCreateAPIView):
     queryset = Cota.objects.all()
