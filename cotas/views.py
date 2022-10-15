@@ -187,14 +187,25 @@ def dashboard_detail(request, cota_cod):
     cota = get_object_or_404(Cota, codigo=cota_cod)
     return render(request, 'cota.html', {'cota': cota})
 
-def dashboard_update_cota(request):
+def dashboard_update_cota(request, codigo):
     queryset = request.POST
     print(queryset)
+
+    cota_update = Cota.objects.get(codigo = codigo)
+
+    cota_update.administradora = request.POST.get('administradora')
+    cota_update.valor = request.POST.get('valor')
+    cota_update.entrada = request.POST.get('entrada')
+    cota_update.parcelas = request.POST.get('parcelas')
+    cota_update.segmento = request.POST.get('segmento')
+    cota_update.vencimento = request.POST.get('vencimento')
+
+    cota_update.save()
+    
     return redirect('/dashboard')
 
-def dashboard_remove_cota(request):
-    queryset = request.POST
-    print(queryset)
+def dashboard_remove_cota(request, codigo):
+    Cota.objects.get(codigo = codigo).delete()
     return redirect('/dashboard')
 
 class CotaAPIView(generics.ListCreateAPIView):

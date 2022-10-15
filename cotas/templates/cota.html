@@ -16,7 +16,7 @@
 <br>
 
 </form>
- <form method="POST" action="/update">
+ <form method="POST" action="/update/{{cota.codigo}}">
     {% csrf_token %}
     <table>
     <tr>
@@ -56,7 +56,7 @@
     
 </table>
 <button type="submit" class="btn btn-success">Atualizar</button>
-<button type="submit" class="btn btn-success">Atualizar</button>
+<a href="/dashboard"><button type="button" class="btn btn-dark">Voltar</button></a>
 </form>
 
 </body>

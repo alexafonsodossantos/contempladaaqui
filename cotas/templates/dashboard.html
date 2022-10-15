@@ -14,22 +14,27 @@
 
 
 <table class="table">
-    <th>Codigo</th>
     <th>Administradora</th>
     <th>Crédito</th>
     <th>Entrada</th>
     <th>Parcelas</th>
     <th>Segmento</th>
     <th>Vencimento</th>
+    <th>Código</th>
+    <th colspan="2" style="text-align:center">Opções</th>
     {% for cota in cotas_list %}
     <tr>
-        <td><a href="dashboard/{{ cota.codigo }}">{{cota.codigo}}</a></td>
+        
         <td>{{cota.administradora}}</td>
         <td>{{cota.valor}}</td>
         <td>{{cota.entrada}}</td>
         <td>{{cota.parcelas}}</td>
         <td>{{cota.segmento}}</td>
         <td>{{cota.vencimento}}</td>
+        <td>{{cota.codigo}}</td>
+        <td><a href="dashboard/{{cota.codigo}}"><button type="button" class="btn btn-success">Editar</button></a></td>
+        <td><a href="remove/{{cota.codigo}}"><button type="button" class="btn btn-danger">Excluir</button></a></td>
+        
     </tr>
 
 {% endfor %}

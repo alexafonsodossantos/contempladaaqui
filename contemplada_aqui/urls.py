@@ -28,7 +28,8 @@ urlpatterns = [
     path('cotas_json', CotaAPIView.as_view(), name='cotas_json'),
     path('dashboard', views.dashboard, name='dashboard'),
     path('dashboard/<int:cota_cod>', views.dashboard_detail, name='dashboard_detail'),
-    path('remove', views.dashboard_remove_cota, name='dashboard_remove_cota')
+    path('remove/<int:codigo>', views.dashboard_remove_cota, name='dashboard_remove_cota'),
+    path('update/<int:codigo>', views.dashboard_update_cota, name='dashboard_remove_cota')
 
 ]
 
