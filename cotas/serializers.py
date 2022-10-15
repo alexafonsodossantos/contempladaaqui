@@ -1,13 +1,24 @@
 from rest_framework import serializers
 from django.db.models import Avg
-from .models import Cota
+from .models import Cota, Parcelas
+
+class ParcelasSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Parcelas
+        fields = [
+            'id',
+            'cota_id',
+            'qt_parcelas',
+            'valor_parcelas'
+        ]
 
 class CotaSerializer(serializers.ModelSerializer):
-
+    parcelas = ParcelasSerializer(many=True, read_only=True)
     class Meta:
 
         model = Cota
-        fields = (
+        fields = [
             'codigo',
             'administradora',
             'valor',
@@ -16,4 +27,4 @@ class CotaSerializer(serializers.ModelSerializer):
             'segmento',
             'vencimento',
             'img'
-        )
+        ]

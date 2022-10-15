@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from cotas import views
 from django.contrib import admin
-from cotas.views import CotaAPIView
+from cotas.views import CotaAPIView, ParcelaAPIView
 
 
 urlpatterns = [
@@ -26,6 +26,7 @@ urlpatterns = [
     path('update_agent', views.update_agent, name='update_agent'),
     path('', views.index, name='index'),
     path('cotas_json', CotaAPIView.as_view(), name='cotas_json'),
+    path('parcelas_json', ParcelaAPIView.as_view(), name='parcelas_json'),
     path('dashboard', views.dashboard, name='dashboard'),
     path('dashboard/<int:cota_cod>', views.dashboard_detail, name='dashboard_detail'),
     path('remove/<int:codigo>', views.dashboard_remove_cota, name='dashboard_remove_cota'),

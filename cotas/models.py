@@ -15,10 +15,16 @@ class Cota(models.Model):
     administradora = models.CharField(max_length=140)
     valor = models.CharField(max_length=140)
     entrada = models.CharField(max_length=140)
-    parcelas = models.CharField(max_length=140)
     segmento = models.CharField(max_length=140)
     vencimento = models.CharField(max_length=140)
     img = models.CharField(max_length=255)
 
     def __str__(self):
         return str(self.codigo)
+
+class Parcelas(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    cota_id = models.ForeignKey(Cota, related_name='parcelas', on_delete=models.CASCADE)
+    qt_parcelas = models.IntegerField()
+    valor_parcelas = models.DecimalField(decimal_places=2, max_digits=10)
+

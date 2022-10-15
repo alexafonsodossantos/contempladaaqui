@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Cota
+from .models import Cota, Parcelas
 import locale
 import re
 import requests
@@ -9,7 +9,7 @@ from django.template import loader
 from django.db.models import Avg, Max, Min, Sum
 from django.views.generic.list import ListView
 import json
-from .serializers import CotaSerializer
+from .serializers import CotaSerializer, ParcelasSerializer
 from rest_framework import generics
 from django.shortcuts import get_object_or_404, redirect
 # Create your views here.
@@ -17,7 +17,10 @@ from django.shortcuts import get_object_or_404, redirect
 
 def update_agent(request):
     if request.user.is_authenticated:
-        latest_cod = int(Cota.objects.all().aggregate(Max('codigo'))['codigo__max']) + 1
+        try:
+            latest_cod = int(Cota.objects.all().aggregate(Max('codigo'))['codigo__max']) + 1
+        except:
+            latest_cod = 14000
 
         Cota.objects.all().delete()
         class Cotas:
@@ -225,6 +228,9 @@ class CotaAPIView(generics.ListCreateAPIView):
     queryset = Cota.objects.all()
     serializer_class = CotaSerializer
 
+class ParcelaAPIView(generics.ListCreateAPIView):
+    queryset = Parcelas.objects.all()
+    serializer_class = ParcelasSerializer
 
     #return JsonResponse(cotas_list, safe=False)
 
