@@ -28,10 +28,14 @@ def update_agent(request):
             carta = ""
             credito = 0
             entrada = 0
-            parcelas = ""
+            parcelas = []
             segmento = ""
             vencimento = ""
             codigo = 0
+
+        class Parcelas:
+            qt_parcelas = 0
+            valor_parcelas = 0.0
 
 
         locale.setlocale(locale.LC_MONETARY, "pt_BR.UTF-8")
@@ -59,12 +63,14 @@ def update_agent(request):
             credito =  int(re.sub('\D','',a[0][0]))/100
             entrada =   (int(re.sub('\D','',a[1][0]))/100) + (credito * 0.07)
             try:
+                # PASSAR ISSO AQUI PRA INT!!!
                 parcelas =  a[2][0] + " " + a[5][0]
+                # OU ISSO?
             except:
                 parcelas =  a[2][0]
-            finally:
-                administradora =  a[3][0]
-                vencimento = "Dia " + a[4][0][0:2]
+
+            administradora =  a[3][0]
+            vencimento = "Dia " + a[4][0][0:2]
 
             obj.credito = credito
             obj.carta = administradora
@@ -86,6 +92,10 @@ def update_agent(request):
             obj.codigo  = latest_cod + index
             obj.credito = locale.currency(obj.credito, grouping=True)
             obj.entrada = locale.currency(obj.entrada, grouping=True)
+
+
+
+
             obj_list.append(obj)
 
         for a in obj_list:

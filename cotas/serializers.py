@@ -7,8 +7,6 @@ class ParcelasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parcelas
         fields = [
-            'id',
-            'cota_id',
             'qt_parcelas',
             'valor_parcelas'
         ]
