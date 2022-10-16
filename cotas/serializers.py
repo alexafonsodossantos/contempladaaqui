@@ -24,5 +24,4 @@ class CotaSerializer(serializers.ModelSerializer):
             'parcelas',
             'segmento',
             'vencimento',
-            'img'
         ]

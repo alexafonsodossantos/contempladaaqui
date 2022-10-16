@@ -17,25 +17,10 @@ from django.shortcuts import get_object_or_404, redirect
 
 def update_agent(request):
     if request.user.is_authenticated:
-        try:
-            latest_cod = int(Cota.objects.all().aggregate(Max('codigo'))['codigo__max']) + 1
-        except:
-            latest_cod = 14000
+        latest_cod = 15000
 
         Cota.objects.all().delete()
-        class Cotas:
-            url = ""
-            carta = ""
-            credito = 0
-            entrada = 0
-            parcelas = []
-            segmento = ""
-            vencimento = ""
-            codigo = 0
 
-        class Parcelas:
-            qt_parcelas = 0
-            valor_parcelas = 0.0
 
 
         locale.setlocale(locale.LC_MONETARY, "pt_BR.UTF-8")
@@ -57,110 +42,62 @@ def update_agent(request):
 
         chunks = [lista_maior[x:x+6] for x in range(0, len(lista_maior), 6)]
 
-        for a in chunks:
-            index = chunks.index(a)
-            obj = Cotas()
-            credito =  int(re.sub('\D','',a[0][0]))/100
-            entrada =   (int(re.sub('\D','',a[1][0]))/100) + (credito * 0.07)
-            try:
-                # PASSAR ISSO AQUI PRA INT!!!
-                parcelas =  a[2][0] + " " + a[5][0]
-                # OU ISSO?
-            except:
-                parcelas =  a[2][0]
+        for c in chunks:
+            cota = Cota()
+            segmento = "Imóveis"
+            codigo = latest_cod + 1
+            cota.codigo = codigo
+            print("Código: ", codigo)
 
-            administradora =  a[3][0]
-            vencimento = "Dia " + a[4][0][0:2]
+            administradora =  c[3][0]
+            print("Administradora: ", administradora)
+            cota.administradora = administradora
 
-            obj.credito = credito
-            obj.carta = administradora
-            obj.entrada = entrada
-            obj.parcelas = parcelas
-            obj.vencimento = vencimento
+            credito =  int(re.sub('\D','',c[0][0]))/100
+            print("Crédito: ", credito)
+            cota.credito = credito
 
-            if administradora == "Caixa":
-                obj.url = "https://www.contempladaaqui.com.br/wp-content/uploads/2021/05/caixa.png"
-            elif administradora == "Bradesco":
-                obj.url = "https://www.contempladaaqui.com.br/wp-content/uploads/2021/07/Bradesco.png"
-            elif administradora == "Itau":
-                obj.url = "https://www.contempladaaqui.com.br/wp-content/uploads/2021/07/Itau.png"
-            elif administradora == "Caixa | SX5":
-                obj.url = "https://www.contempladaaqui.com.br/wp-content/uploads/2021/05/caixa.png"
-            else:
-                obj.url = ""
-            obj.segmento = "Imóveis"
-            obj.codigo  = latest_cod + index
-            obj.credito = locale.currency(obj.credito, grouping=True)
-            obj.entrada = locale.currency(obj.entrada, grouping=True)
+            entrada =   (int(re.sub('\D','',c[1][0]))/100) + (credito * 0.07)
+            print("Entrada: ", entrada)
+            cota.entrada = entrada
+            vencimento = int(c[4][0][0:2])
+            parcelas_str =  c[2][0]
+            parcelas_list = parcelas_str.rsplit(" ")
 
+            new_list = []
+            for b in parcelas_list:
+                c = re.sub('\D','',b)
+                if c != "":
+                    new_list.append(int(c))
+                
+            for d in new_list:
+                i = new_list.index(d)
 
+                if i % 2 != 0:
+                    new_list[i] = d / 100
+                
+                parcelas = [new_list[x:x+2] for x in range(0, len(new_list), 2)]
+            
+            cota = Cota.objects.create(codigo = codigo,
+                                        administradora = administradora,
+                                        valor = credito, 
+                                        entrada = entrada, 
+                                        segmento = segmento, 
+                                        vencimento = vencimento
+                                        )
+            latest_cod = codigo
+            print("Parcelas:")
+            for h in parcelas:
 
+                qt_parcelas = h[0]
+                valor_parcelas = h[1]
 
-            obj_list.append(obj)
+                pcl = Parcelas.objects.create(cota_id = cota, qt_parcelas = qt_parcelas, valor_parcelas = valor_parcelas)
+                pcl.save()
 
-        for a in obj_list:
-            cota = Cota.objects.create(codigo = a.codigo, administradora = a.carta,
-            valor = a.credito, entrada = a.entrada, parcelas = a.parcelas, segmento = a.segmento, vencimento = a.vencimento, img = a.url  )
-            print('valor inserido.')
-
-        latest_cod = int(Cota.objects.all().aggregate(Max('codigo'))['codigo__max'])
-        print(latest_cod)
-
-
-        html_content = requests.get("https://contempladoschapeco.com.br/consorcio/veiculo/", headers=headers).text
-        soup = BeautifulSoup(html_content,features="html.parser")
-        lista_maior = []
-        obj_list = []
-
-        table = soup.find_all('table')
-        tds = soup.find_all('td')
-
-        for a in tds:
-            data = a.contents
-            lista_maior.append(data)
-
-        chunks = [lista_maior[x:x+6] for x in range(0, len(lista_maior), 6)]
-
-        for a in chunks:
-            index = chunks.index(a)
-            obj = Cotas()
-            credito =  int(re.sub('\D','',a[0][0]))/100
-            entrada =   (int(re.sub('\D','',a[1][0]))/100) + (credito * 0.07)
-            try:
-                parcelas =  a[2][0] + " " + a[5][0]
-            except:
-                parcelas =  a[2][0]
-            finally:
-                administradora =  a[3][0]
-                vencimento = "Dia " + a[4][0][0:2]
-
-            obj.credito = credito
-            obj.carta = administradora
-            obj.entrada = entrada
-            obj.parcelas = parcelas
-            obj.vencimento = vencimento
-
-            if administradora == "Caixa":
-                obj.url = "https://www.contempladaaqui.com.br/wp-content/uploads/2021/05/caixa.png"
-            elif administradora == "Bradesco":
-                obj.url = "https://www.contempladaaqui.com.br/wp-content/uploads/2021/07/Bradesco.png"
-            elif administradora == "Itau":
-                obj.url = "https://www.contempladaaqui.com.br/wp-content/uploads/2021/07/Itau.png"
-            elif administradora == "Caixa | SX5":
-                obj.url = "https://www.contempladaaqui.com.br/wp-content/uploads/2021/05/caixa.png"
-            else:
-                obj.url = ""
-            obj.segmento = "Automóveis"
-            obj.codigo  = latest_cod + index
-            obj.credito = locale.currency(obj.credito, grouping=True)
-            obj.entrada = locale.currency(obj.entrada, grouping=True)
-            obj_list.append(obj)
-
-        for a in obj_list:
-            cota = Cota.objects.create(codigo = a.codigo, administradora = a.carta,
-            valor = a.credito, entrada = a.entrada, parcelas = a.parcelas, segmento = a.segmento, vencimento = a.vencimento, img = a.url  )
-            print('valor inserido.')
-
+            cota.save()
+        latest_cod = codigo
+      
         return HttpResponse("Dados inseridos!")
     else:
         return HttpResponse('Não autorizado.')

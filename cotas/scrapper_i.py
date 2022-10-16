@@ -1,4 +1,3 @@
-from hashlib import new
 import locale
 import requests
 from bs4 import BeautifulSoup
@@ -9,9 +8,12 @@ class Cotas:
     credito = 0
     entrada = 0
     parcelas = []
-    segmento = ""
+    segmento = "Imóveis"
     vencimento = ""
     codigo = 0
+
+
+
 
 class Parcelas:
     qt_parcelas = 0
@@ -40,42 +42,53 @@ for a in tds:
 
 chunks = [lista_maior[x:x+6] for x in range(0, len(lista_maior), 6)]
 
-for a in chunks:
-    index = chunks.index(a)
-    obj = Cotas()
-    obj.credito =  int(re.sub('\D','',a[0][0]))/100
-    obj.entrada =   (int(re.sub('\D','',a[1][0]))/100) + (obj.credito * 0.07)
-    obj.carta =  a[3][0]
-    obj.vencimento =  int(a[4][0][0:2])
-    # PASSAR ISSO AQUI PRA INT!!!
-    parcelas_str =  a[2][0]
+for c in chunks:
+    cota = Cotas()
+
+    administradora =  c[3][0]
+    print("Administradora: ", administradora)
+    cota.administradora = administradora
+
+    credito =  int(re.sub('\D','',c[0][0]))/100
+    print("Crédito: ", credito)
+    cota.credito = credito
+
+    entrada =   (int(re.sub('\D','',c[1][0]))/100) + (credito * 0.07)
+    print("Entrada: ", entrada)
+    cota.entrada = entrada
+
+    parcelas_str =  c[2][0]
     parcelas_list = parcelas_str.rsplit(" ")
+
     new_list = []
     for b in parcelas_list:
         c = re.sub('\D','',b)
         if c != "":
             new_list.append(int(c))
-
+        
     for d in new_list:
         i = new_list.index(d)
 
         if i % 2 != 0:
             new_list[i] = d / 100
-
+        
         parcelas = [new_list[x:x+2] for x in range(0, len(new_list), 2)]
-        for x in parcelas:
-            print(x)
-        print("-"*30)
+    
+    print("Parcelas:")
+    for h in parcelas:
+        p = Parcelas()
+        p.qt_parcelas = h[0]
+        p.valor_parcelas = h[1]
+        print(p)
 
-    #obj_list.append(obj)
+    print("="*80)
 
-"""    for a in obj_list:
-        print("-------------------")
-        print("Administradora: ", a.carta)
-        print("Crédito: ",a.credito)
-        print("Entrada: ",a.entrada)
-        for i in a.parcelas:
-            print(i)
-        print("Segmento:", a.segmento)
-        print("Vencimento: ",a.vencimento)
-        print("Código: ", a.codigo)"""
+
+
+
+
+
+
+
+
+
