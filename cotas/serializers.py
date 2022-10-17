@@ -7,6 +7,7 @@ class ParcelasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parcelas
         fields = [
+            'id',
             'qt_parcelas',
             'valor_parcelas'
         ]
@@ -16,7 +17,9 @@ class CotaSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Cota
+        ordering = ['id']
         fields = [
+            'id',
             'codigo',
             'administradora',
             'valor',

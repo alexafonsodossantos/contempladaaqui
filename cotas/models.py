@@ -8,10 +8,10 @@ class Cota(models.Model):
     id = models.BigAutoField(primary_key=True)
     codigo = models.CharField(max_length=140)
     administradora = models.CharField(max_length=140)
-    valor = models.CharField(max_length=140)
-    entrada = models.CharField(max_length=140)
+    valor = models.DecimalField(max_digits=20, decimal_places=2)
+    entrada = models.DecimalField(max_digits=20, decimal_places=2)
     segmento = models.CharField(max_length=140)
-    vencimento = models.CharField(max_length=140)
+    vencimento = models.IntegerField()
 
     def __str__(self):
         return str(self.codigo)

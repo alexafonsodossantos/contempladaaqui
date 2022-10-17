@@ -19,7 +19,7 @@ def update_agent(request):
     if request.user.is_authenticated:
         latest_cod = 15000
 
-        Cota.objects.all().delete()
+        #Cota.objects.all().delete()
 
 
 
@@ -31,7 +31,6 @@ def update_agent(request):
         html_content = requests.get("https://contempladoschapeco.com.br/consorcio/imovel/", headers=headers).text
         soup = BeautifulSoup(html_content,features="html.parser")
         lista_maior = []
-        obj_list = []
 
         table = soup.find_all('table')
         tds = soup.find_all('td')
@@ -53,11 +52,11 @@ def update_agent(request):
             print("Administradora: ", administradora)
             cota.administradora = administradora
 
-            credito =  int(re.sub('\D','',c[0][0]))/100
+            credito =  float(re.sub('\D','',c[0][0]))/100
             print("Crédito: ", credito)
             cota.credito = credito
 
-            entrada =   (int(re.sub('\D','',c[1][0]))/100) + (credito * 0.07)
+            entrada =   float(re.sub('\D','',c[1][0]))/100 + (credito * 0.07)
             print("Entrada: ", entrada)
             cota.entrada = entrada
             vencimento = int(c[4][0][0:2])
@@ -85,6 +84,7 @@ def update_agent(request):
                                         segmento = segmento, 
                                         vencimento = vencimento
                                         )
+            cota.save()
             latest_cod = codigo
             print("Parcelas:")
             for h in parcelas:
@@ -172,7 +172,7 @@ def dashboard_remove_cota(request, codigo):
         return HttpResponse("Não autorizado.")
 
 class CotaAPIView(generics.ListCreateAPIView):
-    queryset = Cota.objects.all()
+    queryset = Cota.objects.order_by('id')
     serializer_class = CotaSerializer
 
 class ParcelaAPIView(generics.ListCreateAPIView):

@@ -132,6 +132,8 @@ LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
 
+USE_THOUSAND_SEPARATOR = True
+
 USE_I18N = True
 
 USE_TZ = True
@@ -161,6 +163,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
         #'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
+
+    'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE' : 25,
 
     'DEFAULT_THROTTLE_CLASSES': (
         'rest_framework.throttling.AnonRateThrottle',

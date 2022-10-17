@@ -164,18 +164,41 @@
 <table
   id="table"
   data-toggle="table"
-  data-height="460"
+  data-height="800"
   data-url="/cotas_json"
-  pagination="client">
+  data-page-list="[25, 50, 100, all]"
+  data-pagination="true"
+  data-page-size="25"
+  data-side-pagination="server"
+  data-show-pagination-switch="true"
+  data-response-handler="responseHandler"
+  >
   <thead>
     <tr>
-      <th data-field="valor">Valor</th>
-      <th data-field="parcelas" data-formatter="ParcelasFormatter">Parcelas</th>
       <th data-field="codigo" >Codigo</th>
+      <th data-field="valor" data-formatter="ValorFormatter">Valor</th>
+      <th data-field="entrada" data-formatter="ValorFormatter">Entrada</th>
+      <th data-field="parcelas" data-formatter="ParcelasFormatter">Parcelas</th>
+      <th data-field="segmento">Segmento</th>
+      <th data-field="vencimento" data-formatter="VencimentoFormatter" >Vencimento</th>
+      
+      
     </tr>
   </thead>
 </table>
 
+
+
+
+
+
+
+<script>
+  function responseHandler(res) {
+    data = res['results']
+    return data
+  }
+</script>
 <script>
   function ParcelasFormatter(value, row) {
     parcelas = row['parcelas'];
@@ -189,12 +212,27 @@
         parcelas_formatted += " + "
     }
     }
-
-    console.log(parcelas_formatted)
-
     return parcelas_formatted
   }
+</script>
 
+<script>
+  function VencimentoFormatter(row) {
+    dia = row;
+    formatted = "Dia " + dia;
+
+    return formatted
+  }
+</script>
+
+<script>
+  function ValorFormatter(row) {
+    valor = row;
+    formatted = Number(valor).toLocaleString()
+    currency = "R$ " + formatted + ",00"
+
+    return currency
+  }
 </script>
 
 {% endblock %}
@@ -393,7 +431,6 @@
     if (scrollpos >= header_height) { add_class_on_scroll() }
     else { remove_class_on_scroll() }
 
-    console.log(scrollpos)
   })
 </script>
 
