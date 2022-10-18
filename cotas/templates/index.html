@@ -161,6 +161,8 @@
 
 <script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
 
+
+
 <table
   id="table"
   data-toggle="table"
@@ -172,6 +174,7 @@
   data-side-pagination="server"
   data-show-pagination-switch="true"
   data-response-handler="responseHandler"
+  data-pagination-h-align="right"
   >
   <thead>
     <tr>
@@ -185,10 +188,23 @@
       
     </tr>
   </thead>
+
+
+
+
+
+
 </table>
 
 
 
+<nav aria-label="Page navigation example">
+  <ul class="pagination" id="table_pagination">
+    <li class="page-item"><a class="page-link" onClick="prevPage()">Anterior</a>
+      <li class="page-item"><a class="page-link" onClick="nextPage()">Próxima</a>
+
+  </ul>
+</nav>
 
 
 
@@ -196,9 +212,21 @@
 <script>
   function responseHandler(res) {
     data = res['results']
+    //qt_registros = res['count']
+    //qt_paginas = parseInt(qt_registros / 25) + 1
+    
+
+    //for (i = 1; i < qt_paginas + 1; i++) {
+    //  var html =  '<li class="page-item"><a class="page-link" onClick="getPage()">'+i+'</a></li>';
+    //  html = $.parseHTML( html);
+    //  $("#table_pagination").append(html);
+    // }
+    //console.log(teste)
     return data
   }
 </script>
+
+
 <script>
   function ParcelasFormatter(value, row) {
     parcelas = row['parcelas'];

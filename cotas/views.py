@@ -96,8 +96,7 @@ def update_agent(request):
                 pcl.save()
 
             cota.save()
-        latest_cod = codigo
-      
+            print("="*50)
         return HttpResponse("Dados inseridos!")
     else:
         return HttpResponse('Não autorizado.')
