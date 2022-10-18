@@ -188,24 +188,11 @@
       
     </tr>
   </thead>
-
-
-
-
-
-
 </table>
-
-
-
 <nav aria-label="Page navigation example">
   <ul class="pagination" id="table_pagination">
-    <li class="page-item"><a class="page-link" onClick="prevPage()">Anterior</a>
-      <li class="page-item"><a class="page-link" onClick="nextPage()">Próxima</a>
-
   </ul>
 </nav>
-
 
 
 
@@ -214,10 +201,12 @@
     data = res['results']
     qt_registros = res['count']
     qt_paginas = parseInt(qt_registros / 25) + 1
-    
-
+    page_buttons = document.getElementById('table_pagination')
+    page_buttons.innerHTML=''
+    var html =  '<li class="page-item"><a class="page-link" onClick="prevPag()" href="#creditos_disponiveis">Anterior</a></li>';
+    //$("#table_pagination").append(html);
     for (i = 1; i < qt_paginas + 1; i++) {
-      var html =  '<li class="page-item"><a class="page-link" onClick="getPage('+i+')">'+i+'</a></li>';
+      var html =  '<li class="page-item"><a class="page-link" onClick="getPage('+i+')" href="#creditos_disponiveis">'+i+'</a></li>';
       html = $.parseHTML( html);
       $("#table_pagination").append(html);
      }
@@ -233,10 +222,9 @@
   });
 
   }
-
-
-
 </script>
+
+
 
 
 <script>
