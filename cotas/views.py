@@ -192,7 +192,10 @@ def dashboard_create_template(request, pk):
 
 
 
-        return HttpResponse("Template criado com sucesso!")
+        file = open(str(cota.codigo)+".png", "rb").read()
+        rea_response = HttpResponse(file, content_type='image/png')
+        rea_response['Content-Disposition'] = 'attachment; filename={}'.format(str(cota.codigo)+'.jpg')
+        return rea_response
     else:
         return HttpResponse("Não autorizado.")
 
