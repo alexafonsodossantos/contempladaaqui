@@ -30,7 +30,8 @@ urlpatterns = [
     path('dashboard', views.dashboard, name='dashboard'),
     path('dashboard/<int:cota_cod>', views.dashboard_detail, name='dashboard_detail'),
     path('remove/<int:codigo>', views.dashboard_remove_cota, name='dashboard_remove_cota'),
-    path('update/<int:codigo>', views.dashboard_update_cota, name='dashboard_remove_cota')
+    path('update/<int:codigo>', views.dashboard_update_cota, name='dashboard_remove_cota'),
+    path('image/<int:pk>', views.dashboard_create_template, name='dashboard_create_template'),
 
 ]
 

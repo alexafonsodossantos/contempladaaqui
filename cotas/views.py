@@ -12,9 +12,10 @@ import json
 from .serializers import CotaSerializer, ParcelasSerializer
 from rest_framework import generics
 from django.shortcuts import get_object_or_404, redirect
+from PIL import Image, ImageFont, ImageDraw
 # Create your views here.
 
-
+locale.setlocale(locale.LC_MONETARY, "pt_BR.UTF-8")
 def update_agent(request):
     if request.user.is_authenticated:
         latest_cod = 15000
@@ -142,6 +143,59 @@ def dashboard_detail(request, cota_cod):
         return render(request, 'cota.html', {'cota': cota})
     else:
         return HttpResponse("Não autorizado.")
+
+
+def dashboard_create_template(request, pk):
+    if request.user.is_authenticated:
+        cota = get_object_or_404(Cota, pk=pk)
+        
+
+        my_image = Image.open("template_blank.png")
+        my_image = my_image.convert('RGBA')
+        valor_font = ImageFont.truetype('bebas_neue/BebasNeue-Regular.ttf', 140)
+        parcelas_font = ImageFont.truetype('bebas_neue/BebasNeue-Regular.ttf', 35)
+        entrada_font = ImageFont.truetype('bebas_neue/BebasNeue-Regular.ttf', 50)
+
+        segmento = "Crédito disponível "+cota.administradora+" - "+cota.segmento
+        valor = locale.currency(cota.valor, grouping=True)
+        entrada = "Entrada: "+ locale.currency(cota.entrada, grouping=True)
+        cota_parcelas = Parcelas.objects.filter(cota_id = pk)
+
+        parcelas = "Parcelas: "
+
+        for a in cota_parcelas:
+            parcelas += str(a.qt_parcelas)
+            parcelas += "x "
+            parcelas += locale.currency(a.valor_parcelas, grouping=True)
+
+            if len(cota_parcelas)>1:
+                parcelas += " + "
+
+        image_editable = ImageDraw.Draw(my_image)
+
+
+
+        image_editable.text((20,670), segmento, (255,255,255), font=entrada_font)
+        #                     X,Y        TEXTO      R  G  B       FONTE
+        image_editable.text((20,700), valor, (245,249,13), font=valor_font)
+
+        image_editable.text((20,835), entrada, (255,255,255), font=entrada_font)
+
+        parcelas = parcelas[:-2]
+
+        image_editable.text((20,890), parcelas, (255,255,255), font=parcelas_font)
+
+        my_image.save(str(cota.codigo)+".png")
+
+
+
+
+
+
+        return HttpResponse("Template criado com sucesso!")
+    else:
+        return HttpResponse("Não autorizado.")
+
 
 def dashboard_update_cota(request, codigo):
     if request.user.is_authenticated:

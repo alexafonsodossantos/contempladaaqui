@@ -21,7 +21,7 @@
     <th>Segmento</th>
     <th>Vencimento</th>
     <th>Código</th>
-    <th colspan="2" style="text-align:center">Opções</th>
+    <th colspan="3" style="text-align:center">Opções</th>
     {% for cota in cotas_list %}
     <tr>
         
@@ -34,6 +34,7 @@
         <td>{{cota.codigo}}</td>
         <td><a href="dashboard/{{cota.codigo}}"><button type="button" class="btn btn-success">Editar</button></a></td>
         <td><a href="remove/{{cota.codigo}}"><button type="button" class="btn btn-danger">Excluir</button></a></td>
+        <td><a href="image/{{cota.id}}"><button type="button" class="btn btn-dark">Gerar template</button></a></td>
         
     </tr>
 
