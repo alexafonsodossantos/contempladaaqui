@@ -173,10 +173,8 @@ def dashboard_create_template(request, pk):
 
         image_editable = ImageDraw.Draw(my_image)
 
-
-
         image_editable.text((20,670), segmento, (255,255,255), font=entrada_font)
-        #                     X,Y        TEXTO      R  G  B       FONTE
+        #                     X,Y     TEXTO     R  G  B           FONTE
         image_editable.text((20,700), valor, (245,249,13), font=valor_font)
 
         image_editable.text((20,835), entrada, (255,255,255), font=entrada_font)
@@ -185,14 +183,9 @@ def dashboard_create_template(request, pk):
 
         image_editable.text((20,890), parcelas, (255,255,255), font=parcelas_font)
 
-        my_image.save(str(cota.codigo)+".png")
+        my_image.save('cotas/static/img/'+str(cota.codigo)+".png")
 
-
-
-
-
-
-        file = open(str(cota.codigo)+".png", "rb").read()
+        file = open('cotas/static/img/'+str(cota.codigo)+".png", "rb").read()
         rea_response = HttpResponse(file, content_type='image/png')
         rea_response['Content-Disposition'] = 'attachment; filename={}'.format(str(cota.codigo)+'.jpg')
         return rea_response
