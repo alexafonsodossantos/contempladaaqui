@@ -43,3 +43,4 @@ twilio==7.5.1
 tzdata==2022.2
 urllib3==1.26.8
 wsproto==1.1.0
+gunicorn==20.1.0
