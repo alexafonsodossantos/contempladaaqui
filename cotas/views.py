@@ -4,11 +4,9 @@ import locale
 import re
 import requests
 from bs4 import BeautifulSoup
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.template import loader
-from django.db.models import Avg, Max, Min, Sum
-from django.views.generic.list import ListView
-import json
+from django.db.models import Max
 from .serializers import CotaSerializer, ParcelasSerializer
 from rest_framework import generics
 from django.shortcuts import get_object_or_404, redirect
@@ -18,9 +16,12 @@ from PIL import Image, ImageFont, ImageDraw
 locale.setlocale(locale.LC_MONETARY, "pt_BR.UTF-8")
 def update_agent(request):
     if request.user.is_authenticated:
-        latest_cod = 15000
+        try:
+            latest_cod = int(Cota.objects.all().aggregate(Max('codigo'))['codigo__max']) + 1
+        except:
+            latest_cod = 15200
 
-        #Cota.objects.all().delete()
+        Cota.objects.all().delete()
 
 
 
@@ -210,8 +211,10 @@ def dashboard_create_template(request, pk):
         image_editable.text((20,700), valor, (245,249,13), font=valor_font)
 
         image_editable.text((20,835), entrada, (255,255,255), font=entrada_font)
+        
+        if len(cota_parcelas)>1:
+            parcelas = parcelas[:-2]
 
-        parcelas = parcelas[:-2]
 
         image_editable.text((20,890), parcelas, (255,255,255), font=parcelas_font)
 
