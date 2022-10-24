@@ -131,7 +131,7 @@ def cropper_save(request, pk):
     img = Imagem.objects.create(img = image, cota_cod = cota)
     img.save()
     
-    return HttpResponse(template.render(context, request))
+    return redirect('/image/'+str(pk))
 
 def dashboard(request):
     if request.user.is_authenticated:
@@ -162,10 +162,28 @@ def dashboard_detail(request, cota_cod):
 def dashboard_create_template(request, pk):
     if request.user.is_authenticated:
         cota = get_object_or_404(Cota, pk=pk)
+        #carrega a  URL da imagem cortada pelo cropper.js pelo campo do modelo
+        imagem = Imagem.objects.get(cota_cod=pk).img
+
+        # carrega o plano de fundo em branco
+        background = Image.open("Plano de Fundo.png")
+
+        #abre a imagem cortada pelo PIL
+        produto = Image.open(imagem)
+
+        #converte
         
 
-        my_image = Image.open("template_blank.png")
-        my_image = my_image.convert('RGBA')
+        produto = produto.resize((1000,698))
+        produto = produto.convert('RGBA')
+        #cola a imagem no fundo em branco
+        background.paste(produto, (0,0))
+
+        
+        template = Image.open("template_blank.png")
+        template = template.convert('RGBA')
+        background.paste(template, (0, 0), template)
+
         valor_font = ImageFont.truetype('bebas_neue/BebasNeue-Regular.ttf', 140)
         parcelas_font = ImageFont.truetype('bebas_neue/BebasNeue-Regular.ttf', 35)
         entrada_font = ImageFont.truetype('bebas_neue/BebasNeue-Regular.ttf', 50)
@@ -185,7 +203,7 @@ def dashboard_create_template(request, pk):
             if len(cota_parcelas)>1:
                 parcelas += " + "
 
-        image_editable = ImageDraw.Draw(my_image)
+        image_editable = ImageDraw.Draw(background)
 
         image_editable.text((20,670), segmento, (255,255,255), font=entrada_font)
         #                     X,Y     TEXTO     R  G  B           FONTE
@@ -197,11 +215,11 @@ def dashboard_create_template(request, pk):
 
         image_editable.text((20,890), parcelas, (255,255,255), font=parcelas_font)
 
-        my_image.save('cotas/static/img/'+str(cota.codigo)+".png")
+        background.save('cotas/static/img/'+str(cota.codigo)+".png")
 
         file = open('cotas/static/img/'+str(cota.codigo)+".png", "rb").read()
         rea_response = HttpResponse(file, content_type='image/png')
-        rea_response['Content-Disposition'] = 'attachment; filename={}'.format(str(cota.codigo)+'.jpg')
+        rea_response['Content-Disposition'] = 'attachment; filename={}'.format(str(cota.codigo)+'.png')
         return rea_response
     else:
         return HttpResponse("Não autorizado.")
