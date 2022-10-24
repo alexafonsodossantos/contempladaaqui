@@ -22,3 +22,8 @@ class Parcelas(models.Model):
     qt_parcelas = models.IntegerField()
     valor_parcelas = models.DecimalField(decimal_places=2, max_digits=10)
 
+
+class Imagem(models.Model):
+    cota_cod = models.ForeignKey(Cota, on_delete=models.CASCADE)
+    img = models.ImageField("Arte", upload_to='cotas/static/images', null=True)
+

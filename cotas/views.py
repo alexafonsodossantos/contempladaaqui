@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Cota, Parcelas
+from .models import Cota, Parcelas, Imagem
 import locale
 import re
 import requests
@@ -117,7 +117,21 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
     
+def cropper(request, pk):
+    template = loader.get_template('cropper.html')
+    context = {'pk':pk}
+    return HttpResponse(template.render(context, request))
 
+def cropper_save(request, pk):
+    context = {'pk':pk}
+    image = request.FILES['image']
+    template = loader.get_template('cropper.html')
+    cota = Cota.objects.get(pk=pk)
+
+    img = Imagem.objects.create(img = image, cota_cod = cota)
+    img.save()
+    
+    return HttpResponse(template.render(context, request))
 
 def dashboard(request):
     if request.user.is_authenticated:
