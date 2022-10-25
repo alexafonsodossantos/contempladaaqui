@@ -22,7 +22,7 @@ def postInstagramQuote(filename):
     payload = {
     'image_url': image_location_1,
     'caption': 'Aqui seu dinheiro vale muito! Essa e outras oportunidades você encontra em www.contempladaaqui.com.br',
-    'access_token': 'EAAGCdVQMxg4BADw9Dakw3I9wZB10EPYHjZAhyr9f7RQQoT6sw9NPDANDL5GUM1WGKJZC9NSKruZA1aRfRM0O4wZBxm7J7LILZCBRV2UGZAVmn4qRZBHVPvtZBryqG5M0AZBwJ17FQDp7B9JzrbzXZCbpIxPxAtn00BrLupOfKbrDZAMh8gZDZD'
+    'access_token': 'EAAGCdVQMxg4BAB1HJo3qtFgZB1i5DXKOk7voaukdbJNjzB1vDfQOCvJJSrQfIoFWnGiUKk48hHZBj7rcaIPgeSS9mPZBiZAcVqNHIoRnDzp6rUymVIjDrossAypzwCZCPMFHjFCqTmal7PbWJlTcozL9ox9mDNYBVdZAcILNMwMigcNGNWLrMnlgWMHZCLqoZC7oa92WJcTmqIuZAt618pjwj'
     }
     r = requests.post(post_url, data=payload)
     print(r.text)
@@ -32,7 +32,7 @@ def postInstagramQuote(filename):
         second_url = 'https://graph.facebook.com/v10.0/{}/media_publish'.format('17841447246430902')
         second_payload = {
         'creation_id': creation_id,
-        'access_token':'EAAGCdVQMxg4BADw9Dakw3I9wZB10EPYHjZAhyr9f7RQQoT6sw9NPDANDL5GUM1WGKJZC9NSKruZA1aRfRM0O4wZBxm7J7LILZCBRV2UGZAVmn4qRZBHVPvtZBryqG5M0AZBwJ17FQDp7B9JzrbzXZCbpIxPxAtn00BrLupOfKbrDZAMh8gZDZD'
+        'access_token':'EAAGCdVQMxg4BAB1HJo3qtFgZB1i5DXKOk7voaukdbJNjzB1vDfQOCvJJSrQfIoFWnGiUKk48hHZBj7rcaIPgeSS9mPZBiZAcVqNHIoRnDzp6rUymVIjDrossAypzwCZCPMFHjFCqTmal7PbWJlTcozL9ox9mDNYBVdZAcILNMwMigcNGNWLrMnlgWMHZCLqoZC7oa92WJcTmqIuZAt618pjwj'
         }
         r = requests.post(second_url, data=second_payload)
         print('--------Just posted to instagram--------')
