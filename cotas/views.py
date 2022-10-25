@@ -11,6 +11,7 @@ from .serializers import CotaSerializer, ParcelasSerializer
 from rest_framework import generics
 from django.shortcuts import get_object_or_404, redirect
 from PIL import Image, ImageFont, ImageDraw
+import json
 # Create your views here.
 
 locale.setlocale(locale.LC_MONETARY, "pt_BR.UTF-8")
@@ -220,10 +221,30 @@ def dashboard_create_template(request, pk):
 
         background.save('cotas/static/img/'+str(cota.codigo)+".png")
 
-        file = open('cotas/static/img/'+str(cota.codigo)+".png", "rb").read()
-        rea_response = HttpResponse(file, content_type='image/png')
-        rea_response['Content-Disposition'] = 'attachment; filename={}'.format(str(cota.codigo)+'.png')
-        return rea_response
+        image_location_1 = 'https://contempladaaqui.herokuapp.com/static/img/'+str(cota.codigo)+'.png'
+        post_url = 'https://graph.facebook.com/v10.0/{}/media'.format('17841447246430902')
+        payload = {
+        'image_url': image_location_1,
+        'caption': 'Aqui seu dinheiro vale muito! Essa e outras oportunidades você encontra em www.contempladaaqui.com.br',
+        'access_token': 'EAAGCdVQMxg4BADw9Dakw3I9wZB10EPYHjZAhyr9f7RQQoT6sw9NPDANDL5GUM1WGKJZC9NSKruZA1aRfRM0O4wZBxm7J7LILZCBRV2UGZAVmn4qRZBHVPvtZBryqG5M0AZBwJ17FQDp7B9JzrbzXZCbpIxPxAtn00BrLupOfKbrDZAMh8gZDZD'
+        }
+        r = requests.post(post_url, data=payload)
+        result = json.loads(r.text)
+        if 'id' in result:
+            creation_id = result['id']
+            second_url = 'https://graph.facebook.com/v10.0/{}/media_publish'.format('17841447246430902')
+            second_payload = {
+            'creation_id': creation_id,
+            'access_token':'EAAGCdVQMxg4BADw9Dakw3I9wZB10EPYHjZAhyr9f7RQQoT6sw9NPDANDL5GUM1WGKJZC9NSKruZA1aRfRM0O4wZBxm7J7LILZCBRV2UGZAVmn4qRZBHVPvtZBryqG5M0AZBwJ17FQDp7B9JzrbzXZCbpIxPxAtn00BrLupOfKbrDZAMh8gZDZD'
+            }
+            r = requests.post(second_url, data=second_payload)
+            print(r.text)
+
+
+
+
+
+        return HttpResponse("Post realizado com sucesso!")
     else:
         return HttpResponse("Não autorizado.")
 
