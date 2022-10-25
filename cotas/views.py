@@ -15,14 +15,6 @@ import json
 import time
 # Create your views here.
 
-
-
-
-
-
-import requests
-import config
-import json
 def postInstagramQuote(filename):
 #Post the Image
     image_location_1 = 'https://contempladaaqui.herokuapp.com/static/img/'+filename+'.png'
