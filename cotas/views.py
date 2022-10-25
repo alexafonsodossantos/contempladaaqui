@@ -254,18 +254,7 @@ def dashboard_create_template(request, pk):
 
         image_editable.text((20,890), parcelas, (255,255,255), font=parcelas_font)
 
-        background.save('cotas/static/img/'+str(cota.codigo)+".png")
-
-        time.sleep(3)
-
-        try:
-            postInstagramQuote(str(cota.codigo))       
-        except:
-            return HttpResponse("Ih rapaz...")
-
-
-
-
+        background.save('cotas/static/img/'+str(cota.codigo)+'.png')
 
         return HttpResponse("Post realizado com sucesso!")
     else:
