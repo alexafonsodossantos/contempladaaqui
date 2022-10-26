@@ -17,12 +17,12 @@ import time
 
 def postInstagramQuote(filename):
 #Post the Image
-    image_location_1 = 'https://contempladaaqui.herokuapp.com/static/img/'+filename+'.png'
+    image_location_1 = 'https://contempladaaqui.herokuapp.com/cotas/static/img/'+filename+'.png'
     post_url = 'https://graph.facebook.com/v10.0/{}/media'.format('17841447246430902')
     payload = {
     'image_url': image_location_1,
     'caption': 'Aqui seu dinheiro vale muito! Essa e outras oportunidades você encontra em www.contempladaaqui.com.br',
-    'access_token': 'EAAGCdVQMxg4BAB1HJo3qtFgZB1i5DXKOk7voaukdbJNjzB1vDfQOCvJJSrQfIoFWnGiUKk48hHZBj7rcaIPgeSS9mPZBiZAcVqNHIoRnDzp6rUymVIjDrossAypzwCZCPMFHjFCqTmal7PbWJlTcozL9ox9mDNYBVdZAcILNMwMigcNGNWLrMnlgWMHZCLqoZC7oa92WJcTmqIuZAt618pjwj'
+    'access_token': 'EAAGCdVQMxg4BANiRZC1dRoZCM98Dku10fkJCiZCOiL0dImQUZC6CjqX1fzYJEl1ckCerEbAZAZC1t6i7TwAp2xFs1nxyyifHAAmnsz7CgqWU8ejmUGZB5o1zZAqicBaHaZC2fTS9YEu58OVLcMpKA2hsM3Lzrwpd8VZCr8LcZB2L3uWjn78VhtGL6vTs8LlQcWHHIyvFosaEny6yy6tPTWK76Tx'
     }
     r = requests.post(post_url, data=payload)
     print(r.text)
@@ -32,7 +32,7 @@ def postInstagramQuote(filename):
         second_url = 'https://graph.facebook.com/v10.0/{}/media_publish'.format('17841447246430902')
         second_payload = {
         'creation_id': creation_id,
-        'access_token':'EAAGCdVQMxg4BAB1HJo3qtFgZB1i5DXKOk7voaukdbJNjzB1vDfQOCvJJSrQfIoFWnGiUKk48hHZBj7rcaIPgeSS9mPZBiZAcVqNHIoRnDzp6rUymVIjDrossAypzwCZCPMFHjFCqTmal7PbWJlTcozL9ox9mDNYBVdZAcILNMwMigcNGNWLrMnlgWMHZCLqoZC7oa92WJcTmqIuZAt618pjwj'
+        'access_token':'EAAGCdVQMxg4BANiRZC1dRoZCM98Dku10fkJCiZCOiL0dImQUZC6CjqX1fzYJEl1ckCerEbAZAZC1t6i7TwAp2xFs1nxyyifHAAmnsz7CgqWU8ejmUGZB5o1zZAqicBaHaZC2fTS9YEu58OVLcMpKA2hsM3Lzrwpd8VZCr8LcZB2L3uWjn78VhtGL6vTs8LlQcWHHIyvFosaEny6yy6tPTWK76Tx'
         }
         r = requests.post(second_url, data=second_payload)
         print('--------Just posted to instagram--------')
@@ -255,6 +255,10 @@ def dashboard_create_template(request, pk):
         image_editable.text((20,890), parcelas, (255,255,255), font=parcelas_font)
 
         background.save('cotas/static/img/'+str(cota.codigo)+'.png')
+
+        time.sleep(3)
+
+        postInstagramQuote(str(cota.codigo))
 
         return HttpResponse("Post realizado com sucesso!")
     else:
