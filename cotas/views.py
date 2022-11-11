@@ -50,6 +50,9 @@ def postInstagramQuote(filename):
 
 
 locale.setlocale(locale.LC_MONETARY, "pt_BR.UTF-8")
+
+
+
 def update_agent(request):
     if request.user.is_authenticated:
         try:
