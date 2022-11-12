@@ -261,7 +261,23 @@ def dashboard_create_template(request, pk):
 
         time.sleep(3)
 
-        postInstagramQuote(str(cota.codigo))
+        L_TOKEN = "EAAGCdVQMxg4BADUbdRN9JCicnUEe46bo9UfDpkR5VTKDiYe5ueETltlPYSZCuwDY4laXOQLQD5xEvs7eqWAtZC4ukO7Ju3sVoClJxiNogAmZARVIl15MtIDEXqRaEIl2vYIFVZBTpMw0IWNBiwS0ty4g2A7hSk5UY60nsRGoZCJHE8oFB43xz"
+
+        instagram_id = "17841447246430902"
+
+        public_img_path = "http://contempladaaqui.herokuapp.com/cotas/static/img/"+str(cota.codigo)+'.png'
+        caption = "Aqui seu dinheiro vale muito! \n Essas e outras oportunidades em www.contempladaaqui.com.br"
+
+
+        post_url = f"https://graph.facebook.com/v10.0/{instagram_id}/media?image_url={public_img_path}&caption={caption}&access_token={L_TOKEN}"
+
+        pub = requests.post(post_url).json()
+        post_id = pub['id']
+
+
+        url4 = f"https://graph.facebook.com/v10.0/{instagram_id}/media_publish?creation_id={post_id}&access_token={L_TOKEN}"
+        pub = requests.post(url4)
+        print(pub.text)
 
         return HttpResponse("Post realizado com sucesso!")
     else:
