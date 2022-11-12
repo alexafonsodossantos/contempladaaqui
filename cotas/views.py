@@ -261,7 +261,7 @@ def dashboard_create_template(request, pk):
 
         time.sleep(3)
 
-        L_TOKEN = "EAAGCdVQMxg4BAPYbI6SFDivUwbT2kD7OewneJK9KsjDfd1BniOoxET7JO9wwykqbjKDADAhzg4MxZB8vd7kDZCBya1Utp8A1UemeDoiRD1cLsFZAX6pobU2R8fvq6okKVSCKZBAl7HPFyFglAP45wGHwCgjyBedaO2vs3ZCqTp2I83wRqDPQP"
+        L_TOKEN = "EAAGCdVQMxg4BAKp88cpKJzlO8ZBBdqQC9Eb2BjlZBZCbqs0kRZAvagCYVxHm88T0XwZBFS9W55Yfx2jzMs3vlydNi9N2EdZBNJnkQNwDgL59yiUt9zt3GAbnbNFlMl0JksDgU4Pn1Mh32ZBetjeWafDwjl6yAeAHJlM4p215V5D6wZDZD"
 
         instagram_id = "17841447246430902"
 
